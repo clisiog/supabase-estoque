@@ -33,6 +33,11 @@ const routes = [
         name: "reset-password",
         component: () => import("pages/ResetPassword.vue"),
       },
+      {
+        path: "/product-public/:id",
+        name: "product-public",
+        component: () => import("pages/product/Public.vue"),
+      },
     ],
   },
   {
@@ -44,6 +49,26 @@ const routes = [
         path: "/me",
         name: "me",
         component: () => import("pages/Me.vue"),
+      },
+      {
+        path: "/category",
+        name: "category",
+        component: () => import("pages/category/List.vue"),
+      },
+      {
+        path: "/form-category/:id?",
+        name: "form-category",
+        component: () => import("pages/category/Form.vue"),
+      },
+      {
+        path: "/product",
+        name: "product",
+        component: () => import("pages/product/List.vue"),
+      },
+      {
+        path: "/form-product/:id?",
+        name: "form-product",
+        component: () => import("pages/product/Form.vue"),
       },
     ],
     meta: { requiresAuth: true },

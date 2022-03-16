@@ -33,7 +33,7 @@
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label header> Essential Links </q-item-label>
+        <q-item-label header> Menu </q-item-label>
 
         <EssentialLink
           v-for="link in essentialLinks"
@@ -58,16 +58,22 @@ import { useQuasar } from "quasar";
 
 const linksList = [
   {
-    title: "Docs",
-    caption: "quasar.dev",
-    icon: "school",
-    link: "https://quasar.dev",
+    title: "Home",
+    caption: "Página inicial",
+    icon: "home",
+    routeName: "me",
   },
   {
-    title: "Github",
-    caption: "github.com/quasar",
-    icon: "code",
-    link: "https://github.com/quasarframework",
+    title: "Categorias",
+    caption: "Categorias de produtos",
+    icon: "list",
+    routeName: "me/category",
+  },
+  {
+    title: "Produtos",
+    caption: "Lista de produtos",
+    icon: "archive",
+    routeName: "me/product",
   },
 ];
 
