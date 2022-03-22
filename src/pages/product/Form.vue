@@ -10,7 +10,14 @@
       class="col-md-6 col-xs-12 col-sm-12 q-gutter-y-md"
       @submit.prevent="handlePost"
     >
-      <q-input label="Imagem" stack-label v-model="img" type="file"></q-input>
+      <q-input
+        label="Imagem"
+        stack-label
+        v-model="img"
+        type="file"
+        accept="image/*"
+      ></q-input>
+
       <q-input
         label="Nome"
         v-model="form.name"
@@ -73,6 +80,7 @@ import { defineComponent, ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import useApi from "src/composables/UseApi";
 import useNotify from "src/composables/UseNotify";
+import useAuthUser from "src/composables/UseAuthUser";
 
 export default defineComponent({
   name: "PageFormProduct",
@@ -80,8 +88,9 @@ export default defineComponent({
     const table = "product";
     const router = useRouter();
     const route = useRoute();
-    const { post, getById, update, list, uploadImg } = useApi();
+    const { post, getById, update, listPublic, uploadImg } = useApi();
     const { notifyError, notifySuccess } = useNotify();
+    const { user } = useAuthUser();
 
     const isUpdate = computed(() => route.params.id);
 
@@ -104,7 +113,7 @@ export default defineComponent({
     });
 
     const handleListCategories = async () => {
-      optionsCategory.value = await list("category");
+      optionsCategory.value = await listPublic("category", user.value.id);
     };
 
     const handlePost = async () => {

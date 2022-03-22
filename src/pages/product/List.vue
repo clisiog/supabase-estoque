@@ -14,6 +14,7 @@
           <span class="text-h6">Produtos</span>
           <q-btn
             label="Loja on-line"
+            title="Abrir loja em nova janela"
             dense
             size="sm"
             outline
@@ -22,6 +23,18 @@
             color="primary"
             @click="handleGoToStore"
           ></q-btn>
+
+          <q-btn
+            label="Copiar Link"
+            dense
+            size="sm"
+            outline
+            class="q-ml-sm"
+            icon="content_copy"
+            color="primary"
+            @click="handleCopyLink"
+          />
+
           <q-space />
           <q-btn
             v-if="$q.platform.is.desktop"
@@ -88,7 +101,7 @@ import useApi from "src/composables/UseApi";
 import useAuthUser from "src/composables/UseAuthUser";
 import useNotify from "src/composables/UseNotify";
 import { useRouter } from "vue-router";
-import { useQuasar } from "quasar";
+import { useQuasar, openURL, copyToClipboard } from "quasar";
 
 export default defineComponent({
   name: "PageProductList",
@@ -135,7 +148,28 @@ export default defineComponent({
 
     const handleGoToStore = () => {
       const currentUserId = user.value.id;
-      router.push({ name: "product-public", params: { id: currentUserId } });
+      const link = router.resolve({
+        name: "product-public",
+        params: { id: currentUserId },
+      });
+      // router.push({ name: "product-public", params: { id: currentUserId } });
+      openURL(window.origin + link.href);
+    };
+
+    const handleCopyLink = () => {
+      const currentUserId = user.value.id;
+      const link = router.resolve({
+        name: "product-public",
+        params: { id: currentUserId },
+      });
+      const externalLink = window.origin + link.href;
+      copyToClipboard(externalLink)
+        .then(() => {
+          notifySuccess("Link copiado");
+        })
+        .catch(() => {
+          notifyError("Erro de execução");
+        });
     };
 
     onMounted(() => {
@@ -149,6 +183,7 @@ export default defineComponent({
       handleEdit,
       handleRemoveProduct,
       handleGoToStore,
+      handleCopyLink,
 
       initialPagination: {
         sortBy: "name",
